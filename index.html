@@ -37,7 +37,6 @@
       z-index: 9999;
       background: rgba(11, 11, 13, 0.98);
       padding: 8px 0;
-      /* Estado Inicial */
       opacity: 0;
       visibility: hidden;
       transform: translateY(-20px);
@@ -52,7 +51,7 @@
     }
 
     .nav-content { display: flex; justify-content: space-between; align-items: center; }
-    .brand img { height: 180px; width: auto; } /* Logo maior */
+    .brand img { height: 160px; width: auto; }
 
     .nav-links a {
       margin-left: 20px;
@@ -68,7 +67,23 @@
       border-radius: 8px;
     }
 
-    /* ========= HERO SLIDER (IMAGEM INTEIRA) ========= */
+    /* ========= MENU MOBILE (NOVO) ========= */
+    .menu-toggle {
+      display: none; /* Escondido no desktop */
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 10000;
+    }
+    .menu-toggle span {
+      width: 30px;
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    /* ========= HERO SLIDER ========= */
     .hero-slider {
       position: relative;
       width: 100%;
@@ -96,7 +111,7 @@
     .slide img {
       max-width: 100%;
       max-height: 100%;
-      object-fit: contain; /* Foto inteira */
+      object-fit: contain;
     }
 
     .hero-overlay {
@@ -106,7 +121,6 @@
       z-index: 2;
     }
 
-    /* Conteúdo do Hero */
     .hero-text {
       position: absolute;
       width: 100%;
@@ -129,7 +143,6 @@
     .btn-primary { background: var(--accent); color: #000; }
     .btn-outline { border: 1px solid white; color: white; }
 
-    /* Controles Slider */
     input[type="radio"] { display: none; }
     #s1:checked ~ .slides { transform: translateX(0%); }
     #s2:checked ~ .slides { transform: translateX(-33.333%); }
@@ -149,7 +162,7 @@
     #s2:checked ~ .dots label[for="s2"],
     #s3:checked ~ .dots label[for="s3"] { background: white; transform: scale(1.2); }
 
-    /* ========= SEÇÕES DE CONTEÚDO ========= */
+    /* ========= SEÇÕES ========= */
     section { padding: 80px 0; border-bottom: 1px solid var(--border); }
     h2 { font-family: var(--font-title); font-size: 3rem; margin-bottom: 20px; letter-spacing: 1px; }
     
@@ -158,7 +171,6 @@
 
     .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px; }
     .media-grid img { width: 100%; border-radius: 12px; border: 1px solid var(--border); transition: 0.3s; }
-    .media-grid img:hover { transform: translateY(-5px); border-color: white; }
 
     /* ========= FOOTER ========= */
     footer { padding: 60px 0; text-align: center; color: var(--muted); }
@@ -166,21 +178,47 @@
     .dev-credit { margin-top: 40px; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .dev-credit img { height: 20px; }
 
-    /* Mobile */
+    /* ========= RESPONSIVIDADE (MOBILE) ========= */
     @media (max-width: 768px) {
-      .nav-links { display: none; }
+      .menu-toggle { display: flex; } /* Mostra as barrinhas */
+      
+      .nav-links {
+        position: fixed;
+        top: 0; right: -100%; /* Escondido fora da tela */
+        width: 70%; height: 100vh;
+        background: #0b0b0d;
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.4s;
+        box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+      }
+
+      .nav-links.active { right: 0; } /* Desliza para dentro */
+
+      .nav-links a { margin: 15px 0; font-size: 18px; }
+      
       h2 { font-size: 2.2rem; }
       .btn { width: 80%; margin: 8px 0; }
+      .brand img { height: 60px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR (APARECE NO SCROLL) -->
   <header class="navbar" id="mainNav">
     <div class="container nav-content">
       <a class="brand" href="#"><img src="img/logo-branco12.png" alt="Galo Grow"></a>
-      <nav class="nav-links">
+      
+      <!-- Botão Hambúrguer -->
+      <div class="menu-toggle" id="mobile-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <nav class="nav-links" id="nav-list">
         <a href="#sobre">Sobre</a>
         <a href="#agenda">Agenda</a>
         <a href="#midia">Mídia</a>
@@ -190,16 +228,15 @@
     </div>
   </header>
 
-  <!-- HERO SLIDER -->
   <section class="hero-slider">
     <input type="radio" name="slider" id="s1" checked>
     <input type="radio" name="slider" id="s2">
     <input type="radio" name="slider" id="s3">
 
     <div class="slides">
-      <div class="slide"><img src="img/Banda3.jpeg" alt="Galo Grow Foto 1"></div>
-      <div class="slide"><img src="img/Banda.jpeg" alt="Galo Grow Foto 2"></div>
-      <div class="slide"><img src="img/Banda2.jpeg" alt="Galo Grow Foto 3"></div>
+      <div class="slide"><img src="img/Banda3.jpeg"></div>
+      <div class="slide"><img src="img/Banda.jpeg"></div>
+      <div class="slide"><img src="img/Banda2.jpeg"></div>
     </div>
 
     <div class="hero-overlay"></div>
@@ -207,7 +244,7 @@
     <div class="hero-text">
       <!-- <h1>GALO GROW</h1>
       <p>Rock na alma. Repertório pra todo mundo.</p> -->
-
+      
     </div>
 
     <div class="dots">
@@ -217,7 +254,6 @@
     </div>
   </section>
 
-  <!-- CONTEÚDO -->
   <main>
     <section id="sobre" class="container">
       <div class="hero-btns">
@@ -225,7 +261,7 @@
         <a href="#agenda" class="btn btn-outline">Ver Agenda</a>
       </div>
       <h2>A Gente Toca de Tudo</h2>
-      <p>Misturamos clássicos e hits atuais sem perder a atitude rock. Do nacional ao internacional, um set versátil para qualquer evento.</p>
+      <p>Misturamos clássicos e hits atuais sem perder a atitude rock.</p>
       <div class="chips">
         <span class="chip">Rock</span> <span class="chip">Pop</span> <span class="chip">Sertanejo</span>
         <span class="chip">MPB</span> <span class="chip">Anos 80/90</span> <span class="chip">Hits Atuais</span>
@@ -243,10 +279,10 @@
     <section id="midia" class="container">
       <h2>Mídia</h2>
       <div class="media-grid">
-        <img src="img/Banda5.jpeg" alt="Show 1">
-        <img src="img/Banda.jpeg" alt="Show 2">
-        <img src="img/Banda2.jpeg" alt="Show 3">
-        <img src="img/Banda3.jpeg" alt="Show 4">
+        <img src="img/Banda5.jpeg">
+        <img src="img/Banda.jpeg">
+        <img src="img/Banda2.jpeg">
+        <img src="img/Banda3.jpeg">
       </div>
     </section>
 
@@ -261,18 +297,15 @@
     <div class="container">
       <img src="img/logo-branco12.png" alt="Galo Grow" class="footer-logo">
       <p>Galo Grow © <span id="year"></span> — Todos os direitos reservados.</p>
-      
       <div class="dev-credit">
         <span>Desenvolvido por</span>
-        <a href="http://www.l3me.com.br" target="_blank">
-          <img src="img/rudder.svg" alt="Rudder">
-        </a>
+        <a href="http://www.l3me.com.br" target="_blank"><img src="img/rudder.svg"></a>
       </div>
     </div>
   </footer>
 
   <script>
-    // Lógica do Scroll do Menu
+    // Scroll do Menu
     window.onscroll = function() {
       const nav = document.getElementById('mainNav');
       if (window.pageYOffset > 100) {
@@ -282,7 +315,21 @@
       }
     };
 
-    // Ano automático
+    // Menu Mobile Toggle
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navList = document.getElementById('nav-list');
+
+    mobileMenu.addEventListener('click', () => {
+      navList.classList.toggle('active');
+    });
+
+    // Fecha o menu ao clicar em um link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navList.classList.remove('active');
+      });
+    });
+
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 
