@@ -25,7 +25,7 @@
 
     /* ========= RESET / BASE ========= */
     *,*::before,*::after{box-sizing:border-box}
-    html,body{height:100%}
+    html,body{height:100%;overflow-x:hidden} /* ADICIONADO overflow-x:hidden */
     body{
       margin:0;
       font-family:var(--font-body);
@@ -52,7 +52,7 @@
     .navbar{
       position:fixed;left:0;right:0;top:0;
       display:flex;align-items:center;justify-content:center;
-      padding: 10px 0; /* aumentei de 8px para 12px para dar mais espaço ao logo */
+      padding: 10px 0;
       z-index:120;
       background:transparent;
       transition:background .25s ease, box-shadow .25s ease, transform .25s ease, opacity .25s ease;
@@ -64,18 +64,17 @@
       opacity:1; pointer-events:auto;
     }
 
-    .navbar .container{display:flex;align-items:center;gap:12px;justify-content:space-between}
+    .navbar .container{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap} /* ADICIONADO flex-wrap */
     .brand{display:flex;align-items:center;gap:10px}
     
-    /* LOGO MAIOR - AJUSTE AQUI */
+    /* LOGO RESPONSIVO */
     .brand img{
-      height: 180px; /* AUMENTEI PARA 70px - ajuste como quiser */
+      height: 60px; /* Tamanho padrão reduzido para caber melhor */
       width: auto;
       display: block;
       transition: transform 0.3s ease;
     }
 
-    /* Efeito hover no logo */
     .brand:hover img {
       transform: scale(1.05);
     }
@@ -83,20 +82,26 @@
     /* Ajuste para mobile */
     @media (max-width: 600px) {
       .brand img {
-        height: 50px; /* no mobile fica um pouco menor */
+        height: 40px; /* Logo menor no mobile */
       }
       .navbar{
-        padding: 10px 0;
+        padding: 8px 0;
+      }
+      .navbar .container{
+        padding: 0 12px; /* Menos padding lateral no mobile */
       }
     }
 
     /* nav */
     .nav{
-      display:flex;align-items:center;gap:8px;
+      display:none; /* Escondido no mobile por padrão */
+      align-items:center;
+      gap:8px;
     }
     .nav a{
       padding:8px 12px;border-radius:10px;font-weight:600;border:1px solid transparent;
       min-height:var(--touch);display:inline-flex;align-items:center;
+      font-size: 14px; /* ADICIONADO para melhor legibilidade */
     }
     .nav a:hover,.nav a:focus{background:rgba(255,255,255,.04);border-color:var(--border)}
     .nav a.cta{background:var(--accent);color:#0b0b0d;border-color:var(--accent);padding:10px 14px;border-radius:12px}
@@ -119,8 +124,10 @@
     /* mobile nav panel */
     .mobile-nav{
       display:none;
-      position:fixed;inset:80px 12px auto 12px;padding:10px;border-radius:12px;background:linear-gradient(180deg, rgba(15,15,17,.98), rgba(11,11,13,.98));
+      position:fixed;inset:70px 12px auto 12px;padding:10px;border-radius:12px;background:linear-gradient(180deg, rgba(15,15,17,.98), rgba(11,11,13,.98));
       border:1px solid var(--border);z-index:115;
+      max-height: calc(100vh - 90px); /* ADICIONADO para evitar overflow */
+      overflow-y: auto; /* ADICIONADO scroll se necessário */
     }
     .mobile-nav a{
       display:block;padding:12px;border-radius:8px;margin-bottom:4px;
@@ -141,16 +148,26 @@
     /* ========= HERO: full-screen carousel (radios + labels) ========= */
     .hero-slider{position:relative;width:100%;height:100vh;overflow:hidden}
     .hero-slider input[type="radio"]{position:absolute;left:-9999px;opacity:0}
-    .slides{display:flex;transition:transform .6s cubic-bezier(.22,.9,.2,1);height:100%}
-    .slide{min-width:100%;height:100%;position:relative;flex-shrink:0;overflow:hidden}
+    .slides{display:flex;transition:transform .6s cubic-bezier(.22,.9,.2,1);height:100%;width:300%} /* ADICIONADO width:300% */
+    .slide{min-width:33.333%;height:100%;position:relative;flex-shrink:0;overflow:hidden} /* CORRIGIDO min-width */
+    
+    /* IMAGEM RESPONSIVA DO SLIDER */
     .slide img{
-        width:100%;
-        height:100%;
-        object-fit: contain;          /* MOSTRA A IMAGEM INTEIRA */
-        object-position: center;      /* centraliza */
-        background: #000;             /* as “barras” ficam pretas */
-        filter: grayscale(.12) contrast(1.06) brightness(.85);
-        }
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position: center center; /* CORRIGIDO: centraliza a imagem */
+      filter:grayscale(.12) contrast(1.06) brightness(.85);
+      transition:transform .7s ease;
+    }
+    
+    /* No mobile, ajusta para mostrar melhor o centro da foto */
+    @media (max-width: 768px) {
+      .slide img {
+        object-position: center 30%; /* Foca um pouco acima do centro para pegar rostos */
+      }
+    }
+    
     .overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(11,11,13,.9), rgba(11,11,13,.2));pointer-events:none}
     .grain{position:absolute;inset:-20%;background-image:
       radial-gradient(circle at 10% 20%, rgba(255,255,255,.06) 0 1px, transparent 2px),
@@ -159,27 +176,38 @@
 
     /* hero content fixed over slides */
     .hero-content{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:4;text-align:center;padding:0 16px}
-    .hero-inner{max-width:720px}
+    .hero-inner{max-width:720px;padding:0 20px} /* ADICIONADO padding */
     .eyebrow{font-weight:700;font-size:.85rem;letter-spacing:1.6px;color:var(--muted);text-transform:uppercase;margin-bottom:.35rem}
     .hero-title{font-family:var(--font-title);font-size:clamp(2.6rem,7vw,5.2rem);line-height:0.9;margin:0 0 .4rem}
-    .hero-tag{margin:0 0 1rem;color:var(--muted);font-size:1.02rem}
+    .hero-tag{margin:0 0 1rem;color:var(--muted);font-size:clamp(0.9rem, 2.5vw, 1.02rem)} /* RESPONSIVO */
     .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:1rem}
-    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:var(--touch);padding:10px 18px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.06);font-weight:700}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:var(--touch);padding:10px 18px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.06);font-weight:700;font-size:clamp(0.85rem, 2vw, 1rem)} /* RESPONSIVO */
     .btn--primary{background:var(--accent);border-color:var(--accent);color:#0b0b0d}
     .btn--ghost{background:transparent}
 
     /* arrows and dots */
-    .arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:6;width:44px;height:44px;border-radius:10px;display:grid;place-items:center;background:rgba(0,0,0,.45);border:1px solid var(--border);cursor:pointer}
+    .arrow{
+      position:absolute;top:50%;transform:translateY(-50%);z-index:6;
+      width:44px;height:44px;border-radius:10px;display:none;place-items:center; /* MUDADO para display:none por padrão */
+      background:rgba(0,0,0,.45);border:1px solid var(--border);cursor:pointer;
+    }
     .arrow--left{left:12px}
     .arrow--right{right:12px}
-    .arrow svg{width:18px;height:18px;fill:var(--text)}
+    .arrow svg{width:18px;height:18px;fill:none;stroke:var(--text);stroke-width:2;stroke-linecap:round;stroke-linejoin:round} /* CORRIGIDO SVG */
+    
+    /* Lógica das setas */
+    .s1-controls, .s2-controls, .s3-controls { display: none !important; }
+    #s1:checked ~ .arrows .s1-controls { display: grid !important; }
+    #s2:checked ~ .arrows .s2-controls { display: grid !important; }
+    #s3:checked ~ .arrows .s3-controls { display: grid !important; }
+    
     .dots{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;gap:8px;z-index:6}
     .dot{width:12px;height:12px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.06);display:inline-block;cursor:pointer}
 
     /* transform logic for each radio */
     #s1:checked ~ .slides { transform: translateX(0%); }
-    #s2:checked ~ .slides { transform: translateX(-100%); }
-    #s3:checked ~ .slides { transform: translateX(-200%); }
+    #s2:checked ~ .slides { transform: translateX(-33.333%); } /* CORRIGIDO */
+    #s3:checked ~ .slides { transform: translateX(-66.666%); } /* CORRIGIDO */
 
     #s1:checked ~ .dots label[for="s1"],
     #s2:checked ~ .dots label[for="s2"],
@@ -194,7 +222,7 @@
     .muted{color:var(--muted)}
 
     .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
-    .chip{background:rgba(255,255,255,.03);padding:10px 12px;border-radius:999px;border:1px solid var(--border);min-height:var(--touch);display:inline-flex;align-items:center}
+    .chip{background:rgba(255,255,255,.03);padding:10px 12px;border-radius:999px;border:1px solid var(--border);min-height:var(--touch);display:inline-flex;align-items:center;font-size:clamp(0.85rem, 2vw, 1rem)} /* RESPONSIVO */
 
     .media-grid{display:grid;gap:12px}
     .media-grid figure{border-radius:12px;overflow:hidden;border:1px solid var(--border);background:rgba(255,255,255,.03)}
@@ -217,40 +245,25 @@
     }
 
     footer{border-top:1px solid var(--border);padding:40px 0;color:var(--muted)}
-    /* Esconde todas as setas por padrão */
-    .arrow { display: none !important; }
-
-    /* Mostra apenas as setas do slide que está marcado (checked) */
-    #s1:checked ~ .arrows .s1-controls { display: grid !important; }
-    #s2:checked ~ .arrows .s2-controls { display: grid !important; }
-    #s3:checked ~ .arrows .s3-controls { display: grid !important; }
-
-    /* Estilo das setas (ajuste de cor para aparecer melhor) */
-    .arrow svg {
-      width: 24px;
-      height: 24px;
-      fill: none;
-      stroke: white;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+    
+    /* RESPONSIVIDADE DO FOOTER */
+    footer > div {
+      flex-direction: column !important;
+      text-align: center !important;
+      gap: 20px !important;
     }
-    .footer-credits{
-  display:flex;
-  justify-content:flex-end;
-  align-items:center;
-}
-
-.dev-credit{
-  display:inline-flex;
-  align-items:center;
-  gap:.55rem;
-  color: var(--muted);
-  font-weight: 800;
-  font-size: .9rem;
-  text-decoration: none !important;
-  opacity: .9;
-}
+    footer > div > div:last-child {
+      text-align: center !important;
+    }
+    @media(min-width:768px){
+      footer > div {
+        flex-direction: row !important;
+        text-align: left !important;
+      }
+      footer > div > div:last-child {
+        text-align: right !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -295,24 +308,30 @@
       </div>
     </div>
 
-   <div class="arrows">
-      <!-- Setas para quando o Slide 1 está ativo -->
-      <label for="s3" class="arrow arrow--left s1-controls" title="Ir para Slide 3"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></label>
-      <label for="s2" class="arrow arrow--right s1-controls" title="Ir para Slide 2"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></label>
+  <div class="arrows">
+      <!-- Setas para Slide 1 -->
+      <label for="s3" class="arrow arrow--left s1-controls" title="Anterior">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      </label>
+      <label for="s2" class="arrow arrow--right s1-controls" title="Próximo">
+        <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </label>
 
-      <!-- Setas para quando o Slide 2 está ativo -->
-      <label for="s1" class="arrow arrow--left s2-controls" title="Ir para Slide 1"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></label>
-      <label for="s3" class="arrow arrow--right s2-controls" title="Ir para Slide 3"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></label>
+      <!-- Setas para Slide 2 -->
+      <label for="s1" class="arrow arrow--left s2-controls" title="Anterior">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      </label>
+      <label for="s3" class="arrow arrow--right s2-controls" title="Próximo">
+        <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </label>
 
-      <!-- Setas para quando o Slide 3 está ativo -->
-      <label for="s2" class="arrow arrow--left s3-controls" title="Ir para Slide 2"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></label>
-      <label for="s1" class="arrow arrow--right s3-controls" title="Ir para Slide 1"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></label>
-    </div>
-
-    <div class="dots" role="tablist" aria-label="Controle do carrossel">
-      <label for="s1" class="dot" role="tab" aria-selected="true" aria-controls="slide1" title="Slide 1"></label>
-      <label for="s2" class="dot" role="tab" aria-selected="false" aria-controls="slide2" title="Slide 2"></label>
-      <label for="s3" class="dot" role="tab" aria-selected="false" aria-controls="slide3" title="Slide 3"></label>
+      <!-- Setas para Slide 3 -->
+      <label for="s2" class="arrow arrow--left s3-controls" title="Anterior">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      </label>
+      <label for="s1" class="arrow arrow--right s3-controls" title="Próximo">
+        <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </label>
     </div>
   </section>
 
