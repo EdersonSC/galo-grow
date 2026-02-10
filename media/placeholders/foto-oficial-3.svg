@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Foto oficial 3 (placeholder)">
+  <rect width="1200" height="800" fill="#0b0b0d"/>
+  <g opacity="0.18" fill="#f7f7f7">
+    <circle cx="220" cy="220" r="110"/>
+    <circle cx="520" cy="330" r="80"/>
+    <circle cx="820" cy="240" r="130"/>
+    <circle cx="980" cy="470" r="90"/>
+  </g>
+  <text x="60" y="120" fill="#f7f7f7" font-family="Bebas Neue, Arial" font-size="72" letter-spacing="2">LIVE</text>
+  <text x="60" y="180" fill="#f7f7f7" opacity="0.8" font-family="Inter, Arial" font-size="22">Imagem ao vivo (placeholder)</text>
+</svg>

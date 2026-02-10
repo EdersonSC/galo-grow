@@ -1,0 +1,148 @@
+import { shows } from "../data/shows.js";
+import { downloadICS } from "../lib/ics.js";
+import { formatDateBR, formatTimeBR } from "../lib/utils.js";
+
+function getMonthOptions() {
+  // pega meses a partir dos dados
+  const set = new Set(
+    shows.map((s) => {
+      const d = new Date(s.dateTimeISO);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+    })
+  );
+  return Array.from(set).sort();
+}
+
+export const AgendaPage = {
+  path: "/agenda",
+  meta: {
+    title: "Agenda / Shows — Galo Grow",
+    description: "Veja datas, locais e horários. Filtre por mês/ano e adicione shows ao calendário (ICS)."
+  },
+  render() {
+    const el = document.createElement("div");
+    const months = getMonthOptions();
+
+    el.innerHTML = `
+      <section class="page-hero container">
+        <h1>Agenda / Shows</h1>
+        <p class="muted">Filtre por mês e adicione ao calendário (arquivo <code>.ics</code>).</p>
+
+        <div class="filters" role="group" aria-label="Filtros da agenda">
+          <label class="field">
+            <span class="field__label">Mês/Ano</span>
+            <select class="input" id="monthFilter">
+              <option value="all">Todos</option>
+              ${months
+                .map((m) => {
+                  const [y, mm] = m.split("-");
+                  return `<option value="${m}">${mm}/${y}</option>`;
+                })
+                .join("")}
+            </select>
+          </label>
+
+          <button class="btn btn--ghost" type="button" id="clearFilter">Limpar filtro</button>
+        </div>
+      </section>
+
+      <section class="section container">
+        <div class="table" role="region" aria-label="Lista de shows" tabindex="0">
+          <div class="table__head">
+            <div>Data</div>
+            <div>Hora</div>
+            <div>Cidade</div>
+            <div>Local</div>
+            <div>Ações</div>
+          </div>
+          <div class="table__body" id="showsList"></div>
+        </div>
+
+        <p class="note muted">
+          Dica: edite shows em <code>src/data/shows.js</code>. Para SEO real (indexação completa), considere versão SSR futuramente.
+        </p>
+      </section>
+    `;
+
+    return el;
+  },
+  mount({ main, toast }) {
+    const list = main.querySelector("#showsList");
+    const monthFilter = main.querySelector("#monthFilter");
+    const clear = main.querySelector("#clearFilter");
+
+    function renderList(monthValue) {
+      const items = shows
+        .slice()
+        .sort((a, b) => new Date(a.dateTimeISO) - new Date(b.dateTimeISO))
+        .filter((s) => {
+          if (!monthValue || monthValue === "all") return true;
+          const d = new Date(s.dateTimeISO);
+          const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+          return key === monthValue;
+        });
+
+      if (!items.length) {
+        list.innerHTML = `<div class="table__row table__row--empty"><span class="muted">Nenhum show encontrado para este filtro.</span></div>`;
+        return;
+      }
+
+      list.innerHTML = items
+        .map((s) => {
+          const tickets = s.ticketUrl
+            ? `<a class="btn btn--ghost btn--small" href="${s.ticketUrl}" target="_blank" rel="noreferrer">Ingressos</a>`
+            : `<span class="muted small">—</span>`;
+
+          return `
+            <div class="table__row" data-show-id="${s.id}">
+              <div><strong>${formatDateBR(s.dateTimeISO)}</strong></div>
+              <div>${formatTimeBR(s.dateTimeISO)}</div>
+              <div>${s.city}</div>
+              <div>${s.venue}</div>
+              <div class="table__actions">
+                <button class="btn btn--primary btn--small" type="button" data-ics>Adicionar ao calendário</button>
+                ${tickets}
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    renderList("all");
+
+    monthFilter.addEventListener("change", () => renderList(monthFilter.value));
+    clear.addEventListener("click", () => {
+      monthFilter.value = "all";
+      renderList("all");
+    });
+
+    const onClick = (e) => {
+      const btn = e.target.closest("button[data-ics]");
+      if (!btn) return;
+
+      const row = e.target.closest("[data-show-id]");
+      const id = row?.getAttribute("data-show-id");
+      const s = shows.find((x) => x.id === id);
+      if (!s) return;
+
+      const start = new Date(s.dateTimeISO);
+      downloadICS({
+        title: `Galo Grow — ${s.venue}`,
+        start,
+        durationMinutes: s.durationMinutes || 120,
+        location: `${s.venue} — ${s.city}`,
+        description: `Show Galo Grow. Contato: contato@SEUEMAIL.com (edite no projeto).`
+      });
+
+      toast.show({
+        variant: "success",
+        title: "ICS gerado",
+        message: "Baixamos um arquivo .ics para adicionar ao seu calendário."
+      });
+    };
+
+    main.addEventListener("click", onClick);
+    this.unmount = () => main.removeEventListener("click", onClick);
+  }
+};

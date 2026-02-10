@@ -1,0 +1,65 @@
+.container{
+  width: min(100% - 32px, var(--container));
+  margin-inline: auto;
+}
+
+.header{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(11,11,13,.72);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.header__inner{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+}
+.brand{
+  display:inline-flex;
+  align-items:center;
+  gap: 10px;
+  min-height: 44px;
+}
+.brand__logo{ height: 40px; width:auto; }
+
+.main{ min-height: calc(100vh - 220px); padding-bottom: 24px; }
+
+.footer{
+  border-top: 1px solid var(--border);
+  padding: 26px 0;
+  background: rgba(0,0,0,.12);
+}
+.footer__grid{
+  display:grid;
+  gap: 18px;
+}
+.footer__title{
+  font-family: var(--font-title);
+  letter-spacing: 1px;
+  font-size: 2.1rem;
+  margin: 0 0 6px;
+}
+.footer__subtitle{ margin: 0 0 8px; font-size: 1rem; }
+.footer__list{ list-style: none; padding:0; margin:0; display:grid; gap: 8px; }
+.footer__bottom{
+  display:flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  justify-content: space-between;
+  padding-top: 18px;
+  margin-top: 18px;
+  border-top: 1px solid var(--border);
+}
+
+/* Breakpoints sugeridos */
+@media (min-width: 768px){
+  .footer__grid{ grid-template-columns: 1.3fr 1fr 1fr; align-items:start; }
+}
+
+@media (min-width: 1024px){
+  .header__inner{ padding: 14px 0; }
+}
