@@ -290,11 +290,23 @@
       .menu-toggle { display: flex; }
 
       .hero-slider {
-         height: 80vh; /* Reduz um pouco a altura no celular para não esconder o conteúdo abaixo */
+         height: 60vh; /* Reduzimos a altura para a imagem 16:9 encaixar melhor sem zoom excessivo */
+         min-height: 300px; /* Reduz um pouco a altura no celular para não esconder o conteúdo abaixo */
       } 
       .slide img {
-        object-fit: cover; /* No celular, força a imagem a preencher a tela toda */
-        object-position: center center; /* Centraliza nas pessoas */
+        /* 'contain' garante que a imagem 16:9 apareça INTEIRA na largura do celular */
+        object-fit: contain; 
+        object-position: center;
+        background: #000; /* Fundo preto para preencher o que sobrar em cima/baixo */
+        width: 100vw;
+        height: 100%;
+      }
+      .hero-text {
+        bottom: 20%;
+      }
+
+      .dots {
+        bottom: 15px;
       }
       .nav-links {
         position: fixed;
