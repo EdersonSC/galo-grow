@@ -288,7 +288,14 @@
     /* ========= RESPONSIVIDADE (MOBILE) ========= */
     @media (max-width: 768px) {
       .menu-toggle { display: flex; }
-      
+
+      .hero-slider {
+         height: 80vh; /* Reduz um pouco a altura no celular para não esconder o conteúdo abaixo */
+      } 
+      .slide img {
+        object-fit: cover; /* No celular, força a imagem a preencher a tela toda */
+        object-position: center center; /* Centraliza nas pessoas */
+      }
       .nav-links {
         position: fixed;
         top: 0; right: -100%;
