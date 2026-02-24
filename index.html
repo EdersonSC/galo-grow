@@ -278,6 +278,102 @@
       fill: white;
       transition: 0.3s;
     }
+    /* === Videos verticais ====*/
+    /* Grade específica para vídeos verticais */
+.video-grid.vertical-videos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Colunas mais estreitas */
+  gap: 20px;
+}
+
+.video-grid.vertical-videos .video {
+  aspect-ratio: 9 / 16; /* Formato de celular */
+  background: #000;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.video-grid.vertical-videos video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Garante que o vídeo preencha o espaço */
+}
+
+* ========= LIGHTBOX ========= */
+.media-grid a {
+  display: block;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  cursor: zoom-in;
+}
+
+.media-grid a img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  border-radius: 12px;
+  border: none; /* Remove borda duplicada */
+}
+
+.media-grid a:hover img {
+  transform: scale(1.05); /* Zoom suave ao passar o mouse */
+}
+
+.lightbox {
+  display: none; /* Escondido por padrão */
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 99999;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Aparece quando é o :target (clicado) */
+.lightbox:target {
+  display: flex;
+}
+
+.lightbox img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 0 60px rgba(0,0,0,0.8);
+  animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+.lb-close {
+  position: fixed;
+  top: 20px;
+  right: 25px;
+  font-size: 2rem;
+  color: white;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.lb-close:hover {
+  background: rgba(255,255,255,0.3);
+  transform: rotate(90deg);
+}
 
     /* ========= FOOTER ========= */
     footer { padding: 60px 0; text-align: center; color: var(--muted); }
@@ -403,8 +499,7 @@ O grande diferencial da Galo Grow é a sua identidade: não importa o gênero, c
     <section id="agenda" class="container">
       <h2>Próximos Shows</h2>
       <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; border: 1px solid var(--border);">
-        <p>📅 <strong>21 Fev as 19:00 hs</strong> — Itapira/SP — <a href="#"> Evento Fechado </a></p>
-        <p>📅 <strong>07 Mar as 19:00 hs</strong> — Conchal/SP — <a href="#"> Bangalô</a></p>
+        <p>📅 <strong>07 Mar as 19:00 hs</strong> — Itapira/SP — <a href="https://www.google.com/maps?gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDM2OTdqMGo3qAIAsAIA&um=1&ie=UTF-8&fb=1&gl=br&sa=X&geocode=KTNh1DnS_ciUMVT0LdbThFC0&daddr=R.+Monteiro+Lobato,+32+-+Nova+Itapira,+Itapira+-+SP,+13974-255"> Bangalô Gastrobar</a></p>
         <p>📅 <strong>14 Mar as 19:00 hs</strong> — Pedreira/SP — <a href="https://www.google.com/maps?rlz=1C1GCEB_enBR1188BR1192&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDY2ODdqMGo0qAIAsAIB&um=1&ie=UTF-8&fb=1&gl=br&sa=X&geocode=KVeiBVag3siUMcu3xV7y-YUx&daddr=R.+Ant%C3%B4nio+Pedro,+290+-+Centro,+Pedreira+-+SP,+13920-000"> Colonial Cafeteria</a></p>
         <p>📅 <strong>21 Mar as 19:00 hs</strong> — Artur Nogueira/SP — <a href="https://www.google.com/maps/dir//Quintal+do+Lago,+R.+Francisco+Cabrino+-+Jd+Jos%C3%A9+Alves+Carneiro,+Artur+Nogueira+-+SP,+13161-040/@-22.3091596,-46.95137,3068m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x94c88d9b32828ea7:0x23048ce17eac5e2e!2m2!1d-47.1670192!2d-22.5800657?entry=ttu&g_ep=EgoyMDI2MDIxMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">Quintal do Lago</a></p>
         <p>📅 <strong>21 Mar as 19:00 hs</strong> — Artur Nogueira/SP — <a href="https://www.google.com/maps/dir//Quintal+do+Lago,+R.+Francisco+Cabrino+-+Jd+Jos%C3%A9+Alves+Carneiro,+Artur+Nogueira+-+SP,+13161-040/@-22.3091596,-46.95137,3068m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x94c88d9b32828ea7:0x23048ce17eac5e2e!2m2!1d-47.1670192!2d-22.5800657?entry=ttu&g_ep=EgoyMDI2MDIxMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">Quintal do Lago</a></p>
@@ -412,7 +507,7 @@ O grande diferencial da Galo Grow é a sua identidade: não importa o gênero, c
         <p>📅 <strong>11 Abr as 19:00 hs</strong> — Artur Nogueira/SP — <a href="https://www.google.com/maps/dir//Quintal+do+Lago,+R.+Francisco+Cabrino+-+Jd+Jos%C3%A9+Alves+Carneiro,+Artur+Nogueira+-+SP,+13161-040/@-22.3091596,-46.95137,3068m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x94c88d9b32828ea7:0x23048ce17eac5e2e!2m2!1d-47.1670192!2d-22.5800657?entry=ttu&g_ep=EgoyMDI2MDIxMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">Quintal do Lago</a></p>
         <p>📅 <strong>25 Abr as 19:00 hs</strong> — Mogi Guaçu/SP — <a href="https://www.google.com/maps?rlz=1C1GCEB_enBR1188BR1192&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDQ5MzNqMGoxqAIAsAIA&um=1&ie=UTF-8&fb=1&gl=br&sa=X&geocode=Kafl1ufMV8iUMZlLUb8GT8PU&daddr=Avenia+-+R.+Prof.+Luiz+Gonzaga+de+Amoedo+Campos,+31+-+Jardim+Casa+Grande,+Mogi+Gua%C3%A7u+-+SP,+13844-118"> Choperia Tradição </a></p>
         <p>📅 <strong>02 Mai as 19:00 hs</strong> — Limeira/SP — <a href="#"> - </a></p>
-        <p>📅 <strong>09 Mai as 19:00 hs</strong> — Limeira/SP — <a href="#"> Bangalô </a></p>
+        <p>📅 <strong>09 Mai as 19:00 hs</strong> — Itapira/SP — <a href="https://www.google.com/maps?gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDM2OTdqMGo3qAIAsAIA&um=1&ie=UTF-8&fb=1&gl=br&sa=X&geocode=KTNh1DnS_ciUMVT0LdbThFC0&daddr=R.+Monteiro+Lobato,+32+-+Nova+Itapira,+Itapira+-+SP,+13974-255"> Bangalô Gastrobar</a></p>
         <p>📅 <strong>28 Mai as 19:00 hs</strong> — Mogi Mirim/SP — <a href="google.com/maps?rlz=1C1GCEB_enBR1188BR1192&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDM1OTFqMGo0qAIAsAIB&um=1&ie=UTF-8&fb=1&gl=br&sa=X&geocode=KemLaPGx-ciUMUHnuJv4-ywJ&daddr=Av.+Prof.+Adib+Chaib,+801+-+Centro,+Mogi+Mirim+-+SP,+13800-040"> Noite do Boteco do Clube Mogiano</a></p>
         <p>📅 <strong>30 Mai as 19:00 hs</strong> — Artur Nogueira/SP — <a href="https://www.google.com/maps/dir//Quintal+do+Lago,+R.+Francisco+Cabrino+-+Jd+Jos%C3%A9+Alves+Carneiro,+Artur+Nogueira+-+SP,+13161-040/@-22.3091596,-46.95137,3068m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x94c88d9b32828ea7:0x23048ce17eac5e2e!2m2!1d-47.1670192!2d-22.5800657?entry=ttu&g_ep=EgoyMDI2MDIxMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">Quintal do Lago</a></p>
         <p>📅 <strong>06 Jun as 19:00 hs</strong> — Conchal/SP — <a href="#"> Evento Fechado </a></p>
@@ -428,46 +523,47 @@ O grande diferencial da Galo Grow é a sua identidade: não importa o gênero, c
 
       </div>
     </section>
-
+    
     <section id="midia" class="container">
       <h2>Mídia</h2>
-      <div class="media-grid">
-        <img src="img/Banda5.jpeg">
-        <img src="img/Banda.jpeg">
-        <img src="img/Banda2.jpeg">
-        <img src="img/Banda3.jpeg">
-      </div>
-      <h2>Nosso canal youtube</h2>
-      <div class="video-grid">
-        <div class="video">
-          <iframe
-            src="https://www.youtube.com/embed/ytBtQECp3n8"
-            title="Freedom - Galo Grow (Ao vivo) - AUTORAL"
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
-        </div>
-        <div class="video">
-          <iframe
-            src="https://www.youtube.com/embed/-arSedtBHck"
-            title="Ripa Number Five - Galo Grow (Ao vivo) - AUTORAL"
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
+      <!-- GALERIA COM LIGHTBOX (CSS puro) -->
+        <div class="media-grid">
+          <a href="#img1"><img src="img/banda9.jpeg" alt="Galo Grow"></a>
+          <a href="#img2"><img src="img/banda10.jpeg" alt="Galo Grow"></a>
+          <a href="#img3"><img src="img/Banda 11.jpeg" alt="Galo Grow"></a>
+          <a href="#img4"><img src="img/Banda3.jpeg" alt="Galo Grow"></a>
+          <a href="#img5"><img src="img/Banda12.jpeg" alt="Galo Grow"></a>
+          <a href="#img6"><img src="img/Banda14.jpeg" alt="Galo Grow"></a>
         </div>
 
-        <div class="video">
-          <iframe
-            src="https://www.youtube.com/embed/wl0rCZjCeIk"
-            title="Wonderful Nights - Galo Grow (Ao vivo) - AUTORAL"
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
-        </div>
-      </div>
+        <!-- LIGHTBOX OVERLAYS (ficam escondidos até clicar) -->
+        <div id="img1" class="lightbox"><a href="#" class="lb-close">✕</a><img src="img/banda9.jpeg"></div>
+        <div id="img2" class="lightbox"><a href="#" class="lb-close">✕</a><img src="img/banda10.jpeg"></div>
+        <div id="img3" class="lightbox"><a href="#" class="lb-close">✕</a><img src="img/Banda 11.jpeg"></div>
+        <div id="img4" class="lightbox"><a href="#" class="lb-close">✕</a><img src="img/Banda3.jpeg"></div>
+        <div id="img5" class="lightbox"><a href="#" class="lb-close">✕</a><img src="img/Banda12.jpeg"></div>
+        <div id="img6" class="lightbox"><a href="#" class="lb-close">✕</a><img src="img/Banda14.jpeg"></div>
+      <h2>Uma palhinha</h2>
+     <div class="video-grid vertical-videos">
+    <div class="video">
+        <video controls poster="img/Capa1.png">
+            <source src="media/Video1.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos.
+        </video>
+    </div>
+    <div class="video">
+        <video controls poster="img/Capa1.png">
+            <source src="media/Video2.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos.
+        </video>
+    </div>
+    <div class="video">
+        <video controls poster="img/Capa1.png">
+            <source src="media/Video3.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos.
+        </video>
+    </div>
+</div>
     </section>
 
     <section id="epk" class="container" style="text-align: center;">
