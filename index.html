@@ -372,6 +372,56 @@
   cursor: pointer;
   text-decoration: none;
 }
+/* ========= SETA SCROLL DOWN ========= */
+.scroll-down {
+  position: absolute;
+  bottom: 70px; /* Fica acima das bolinhas */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(4px);
+  transition: background 0.3s, border-color 0.3s;
+  animation: bounce 2s infinite;
+  text-decoration: none;
+}
+
+.scroll-down svg {
+  width: 22px;
+  height: 22px;
+}
+
+.scroll-down:hover {
+  background: rgba(255,255,255,0.2);
+  border-color: white;
+}
+
+/* Animação de "pulo" para chamar atenção */
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0);    }
+  50%       { transform: translateX(-50%) translateY(8px); }
+}
+
+/* No mobile, sobe um pouco para não sobrepor as bolinhas */
+@media (max-width: 768px) {
+  .scroll-down {
+    bottom: 55px;
+    width: 36px;
+    height: 36px;
+  }
+  .scroll-down svg {
+    width: 18px;
+    height: 18px;
+  }
+}
 
 .lb-close:hover {
   background: rgba(255,255,255,0.3);
@@ -462,6 +512,12 @@
     <input type="radio" name="slider" id="s2">
     <input type="radio" name="slider" id="s3">
 
+    <a href="#sobre" class="scroll-down" aria-label="Rolar para baixo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </a>
+
     <div class="slides">
       <div class="slide"><img src="img/Banda16.jpeg"></div>
       <div class="slide"><img src="img/Banda6.png"></div>
@@ -502,7 +558,9 @@ O grande diferencial da Galo Grow é a sua identidade: não importa o gênero, c
     <section id="agenda" class="container">
       <h2>Próximos Shows</h2>
       <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; border: 1px solid var(--border);">
-        <p>📅 <strong>28 Mar as 19:00 hs</strong> — Jaguariuna/SP — <a href="google.com/maps?s=web&rlz=1C1GCEB_enBR1188BR1192&lqi=Cg1WaWxsYSBHb3VybWV0SPSs08Tos4CACFoXEAAQARgAGAEiDXZpbGxhIGdvdXJtZXSSAQZiaXN0cm8&phdesc=LdUcQrjFLVk&vet=12ahUKEwiv1b2P0-iSAxUuqJUCHRRAEvwQ1YkKegQIORAB..i&cs=1&um=1&ie=UTF-8&fb=1&gl=br&sa=X&geocode=KSmkCEDO6ciUMTO0J-_-jW8U&daddr=Rua+10,+17+-+Jardim+Capotuna,+Jaguariúna+-+SP,+13912-422"> Villa Gourmet </a></p>
+        <p>📅 <strong>25 Abr as 19:00 hs</strong> — Mogi Guaçu/SP — <a href="https://www.google.com/maps?rlz=1C1GCEB_enBR1188BR1192&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDQ5MzNqMGoxqAIAsAIA&um=1&ie=UTF-8&fb=1&gl=br&sa=X&geocode=Kafl1ufMV8iUMZlLUb8GT8PU&daddr=Avenia+-+R.+Prof.+Luiz+Gonzaga+de+Amoedo+Campos,+31+-+Jardim+Casa+Grande,+Mogi+Gua%C3%A7u+-+SP,+13844-118"> Choperia Tradição </a></p>
+        <p>📅 <strong>02 Mai as 19:00 hs</strong> — Limeira/SP — <a href="#"> - </a></p>
+        <p>📅 <strong>09 Mai as 19:00 hs</strong> — Itapira/SP — <a href="https://www.google.com/maps?gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDM2OTdqMGo3qAIAsAIA&um=1&ie=UTF-8&fb=1&gl=br&sa=X&geocode=KTNh1DnS_ciUMVT0LdbThFC0&daddr=R.+Monteiro+Lobato,+32+-+Nova+Itapira,+Itapira+-+SP,+13974-255"> Bangalô Gastrobar</a></p>
       </div>
     </section>
     
